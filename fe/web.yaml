@@ -1,0 +1,213 @@
+swagger: "2.0"
+info:
+  description: "Tutaj Ania będzie ćwiczyć swoje Javkowe skille :)"
+  version: "1.0.0"
+  title: "Music Catalog"
+host: "localhost:8080"
+schemes:
+  - "http"
+basePath: "/musicCatalog"
+tags:
+  - name: "example"
+    description: "How to handle request"
+  - name: "author"
+    description: "Operations connected with author"
+  - name: "album"
+    description: "Operations connected with album"
+  - name: "song"
+    description: "Operations connected with song"
+paths:
+  /example:
+    get:
+      tags:
+        - "example"
+      summary: "How to handle request"
+      description: "How to handle request"
+      operationId: "example"
+      responses:
+        "200":
+          description: "Albums"
+        "400":
+          description: "Invalid status value"
+  /author:
+    post:
+      tags:
+        - "author"
+      summary: "Create new author"
+      operationId: "createAuthor"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "author"
+          description: "Author object that needs to be added to the music catalog"
+          required: true
+          schema:
+            $ref: "#/definitions/Author"
+      responses:
+        "201":
+          description: "Author added"
+        "400":
+          description: "Missing parameter(s)"
+        "409":
+          description: "Already existing author"
+  /authors:
+    get:
+      tags:
+        - "author"
+      summary: "Get all authors"
+      operationId: "getAllAuthors"
+      description: "Get all authors"
+      responses:
+        "200":
+          description: "Albums"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Authors"
+        "400":
+          description: "Invalid status value"
+  /{author}/albums:
+    get:
+      tags:
+        - "author"
+      summary: "Finds Author's albums"
+      description: "Finds Author's albums"
+      operationId: "findAuthorAlbums"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "author"
+          in: "path"
+          required: true
+          type: "string"
+          format: "string"
+          description: "Author name"
+      responses:
+        "200":
+          description: "Albums"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Album"
+        "400":
+          description: "Invalid status value"
+    post:
+      tags:
+        - "author"
+      summary: "Create new album for author"
+      operationId: "createAuthorAlbum"
+      consumes:
+        - "application/json"
+      parameters:
+        - name: "author"
+          in: "path"
+          required: true
+          type: "string"
+          format: "string"
+          description: "Author name"
+        - name: "album"
+          in: "body"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Album"
+
+      responses:
+        "201":
+          description: "Album added"
+        "400":
+          description: "Missing parameter(s)"
+        "409":
+          description: "Already existing author"
+  /{author}/songs:
+    get:
+      tags:
+        - "author"
+      summary: "Finds Author's songs"
+      description: "Finds Author's songs"
+      operationId: "findAuthorSongs"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "author"
+          in: "path"
+          required: true
+          type: "string"
+          format: "string"
+          description: "Author name"
+      responses:
+        "200":
+          description: "Songs"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Song"
+        "400":
+          description: "Invalid status value"
+definitions:
+  Author:
+    type: "object"
+    required:
+      - "name"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+        example: "Metallica"
+      establishedDate:
+        type: "string"
+        example: "28-10-1981"
+    xml:
+      name: "Author"
+
+  Authors:
+    type: "object"
+    required:
+      - "name"
+    properties:
+      authors:
+        type: "array"
+        items:
+          $ref: "#/definitions/Author"
+    xml:
+      name: "Authosr"
+
+  Album:
+    type: "object"
+    required:
+      - "name"
+    properties:
+      name:
+        type: "string"
+        example: "Master of Puppets"
+      songs:
+        type: "array"
+        items:
+          $ref: "#/definitions/Song"
+    xml:
+      name: "Album"
+
+  Song:
+    type: "object"
+    required:
+      - "name"
+    properties:
+      name:
+        type: "string"
+        example: "Metallica"
+    xml:
+      name: "Song"
+
+  Example:
+    type: "object"
+    required:
+      - "name"
+    properties:
+      name:
+        type: "string"
+        example: "example"
+    xml:
+      name: "Song"
