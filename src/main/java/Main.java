@@ -14,6 +14,7 @@ public class Main {
         server.start();
         LOGGER.info(server.getAddress().getHostName());
         LOGGER.info("Server started on port 8080");
+        int a = 5;
     }
 
 //    Materiały:
