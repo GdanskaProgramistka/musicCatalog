@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  description: "Tutaj Ania będzie ćwiczyć swoje Javkowe skille :)"
+  description: "Tutaj Ania będzie ćwiczyć swoje Javkowe skille 🙂"
   version: "1.0.0"
   title: "Music Catalog"
 host: "localhost:8080"
@@ -26,7 +26,7 @@ paths:
       operationId: "example"
       responses:
         "200":
-          description: "Albums"
+          description: "Album"
         "400":
           description: "Invalid status value"
   /author:
@@ -60,17 +60,17 @@ paths:
       description: "Get all authors"
       responses:
         "200":
-          description: "Albums"
+          description: "Album"
           schema:
             type: "array"
             items:
               $ref: "#/definitions/Authors"
         "400":
           description: "Invalid status value"
-  /{author}/albums:
+  /albums/{author}:
     get:
       tags:
-        - "author"
+        - "album"
       summary: "Finds Author's albums"
       description: "Finds Author's albums"
       operationId: "findAuthorAlbums"
@@ -85,7 +85,7 @@ paths:
           description: "Author name"
       responses:
         "200":
-          description: "Albums"
+          description: "Album"
           schema:
             type: "array"
             items:
@@ -94,7 +94,7 @@ paths:
           description: "Invalid status value"
     post:
       tags:
-        - "author"
+        - "album"
       summary: "Create new album for author"
       operationId: "createAuthorAlbum"
       consumes:
@@ -120,10 +120,10 @@ paths:
           description: "Missing parameter(s)"
         "409":
           description: "Already existing author"
-  /{author}/songs:
+  /songs/{author}:
     get:
       tags:
-        - "author"
+        - "songs"
       summary: "Finds Author's songs"
       description: "Finds Author's songs"
       operationId: "findAuthorSongs"
@@ -151,9 +151,6 @@ definitions:
     required:
       - "name"
     properties:
-      id:
-        type: "integer"
-        format: "int64"
       name:
         type: "string"
         example: "Metallica"
@@ -173,7 +170,7 @@ definitions:
         items:
           $ref: "#/definitions/Author"
     xml:
-      name: "Authosr"
+      name: "Authors"
 
   Album:
     type: "object"

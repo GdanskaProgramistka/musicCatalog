@@ -1,4 +1,7 @@
 import com.sun.net.httpserver.HttpServer;
+import model.Author;
+import repository.AuthorRepository;
+import service.AuthorService;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -7,15 +10,20 @@ import java.util.logging.Logger;
 public class Main {
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
+    static AuthorRepository authorRepository = new AuthorRepository();
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8080), 0);
+        AuthorService authorService = new AuthorService(authorRepository);
         server.createContext("/musicCatalog/example", new ExampleHandler());
+        server.createContext("/musicCatalog/author", new AuthorHandler(authorService));
         server.setExecutor(null);
         server.start();
         LOGGER.info(server.getAddress().getHostName());
         LOGGER.info("Server started on port 8080");
-        int a = 5;
+
     }
+
+
 
 //    Materiały:
 //    1. http://www.json.org/json-pl.html
